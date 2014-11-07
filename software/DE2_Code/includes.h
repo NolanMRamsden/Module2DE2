@@ -8,9 +8,11 @@
 #ifndef INCLUDES_H_
 #define INCLUDES_H_
 
-#include "SongIndexGenerator/Generator.h"
+#include "Middleman/Communication.h"
+#include "BoardInput/Input.h"
+#include "SeedGenerator/Generator.h"
+#include "Lobby/Lobby.h"
 #include "Logging/VGA.h"
 #include "Logging/Logger.h"
-
 
 #endif /* INCLUDES_H_ */

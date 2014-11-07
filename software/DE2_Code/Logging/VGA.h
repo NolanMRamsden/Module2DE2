@@ -12,7 +12,6 @@
 #include "altera_up_avalon_video_pixel_buffer_dma.h"
 
 extern void initVGA();
-extern void clearScreen();
 extern void clearCharacters();
 extern void drawText(char *text, int x, int y);
 
