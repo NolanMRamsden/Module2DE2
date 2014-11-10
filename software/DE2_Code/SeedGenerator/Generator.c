@@ -8,38 +8,35 @@
 #include "Generator.h"
 #include <stdlib.h>
 
-void generateUserKeys(SongSeed *songSeed, int numUsers)
+void generateUserKeys(SongSeed *songSeed, LobbyRoom *lobby)
 {
-	info("Generator","Creating user Keys");
+	int keys[lobby->playerCount];
 	int i=0;
+	for( i = 0; i < lobby->playerCount; i++)
+		keys[i]=lobby->players[i].clientID;
 	for( i = 0; i < numGesturesPerSong; i++)
-		songSeed->userKey[i] = rand()%numUsers+1;
-	info("Generator","Done Creating user Keys");
+		songSeed->userKey[i] = keys[rand()%lobby->playerCount];
 }
 
 void generateActionKeys(SongSeed *songSeed, int maxGestures)
 {
-	info("Generator","Creating action Keys");
 	int i=0;
 	for( i = 0; i < numGesturesPerSong; i++)
 		songSeed->actionKey[i] = rand()%maxGestures+1;
-	info("Generator","Done Creating action Keys");
 }
 
-void generateSongSeed(SongSeed *songSeed, int numUsers, int maxGestures)
+void generateSongSeed(SongSeed *songSeed, LobbyRoom *lobby, int maxGestures)
 {
-	infoInt("Generator", "Creating SongSeed keys with rand seed: ",songSeed->randSeed);
 	srand(songSeed->randSeed);
-	generateUserKeys(songSeed,numUsers);
+	generateUserKeys(songSeed,lobby);
 	generateActionKeys(songSeed,maxGestures);
 }
 
-void getUniqueUserKey(SongSeed *songSeed, int userIndex)
+void getUniqueUserKey(SongSeed *songSeed, int clientID)
 {
-	infoInt("Generator","Getting unique array for index: ", userIndex);
 	int i=0;
 	for( i = 0; i < numGesturesPerSong; i++)
-		if (songSeed->userKey[i] == userIndex)
+		if (songSeed->userKey[i] == clientID)
 			songSeed->passer[i] = songSeed->actionKey[i];
 		else
 			songSeed->passer[i] = 0;

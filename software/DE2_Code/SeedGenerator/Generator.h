@@ -8,6 +8,8 @@
 #define numGesturesPerSong  20
 #define maxNumGestures       4
 
+#include "../Lobby/Lobby.h"
+
 #ifndef GENERATOR_H_
 #define GENERATOR_H_
 
@@ -20,9 +22,9 @@ typedef struct SongSeed
 	int passer[numGesturesPerSong];
 } SongSeed;
 
-extern void generateUserKeys(SongSeed *songSeed, int numUsers);
+extern void generateUserKeys(SongSeed *songSeed, LobbyRoom *lobby);
 extern void generateActionKeys(SongSeed *songSeed, int maxGestures);
-extern void generateSongSeed(SongSeed *songSeed, int numUsers, int maxGestures);
-extern void getUniqueUserKey(SongSeed *songSeed, int userIndex);
+extern void generateSongSeed(SongSeed *songSeed, LobbyRoom *lobby, int maxGestures);
+extern void getUniqueUserKey(SongSeed *songSeed, int clientID);
 
 #endif /* GENERATOR_H_ */
