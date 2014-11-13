@@ -14,7 +14,5 @@
 #include "SeedGenerator/Generator.h"
 #include "MessageTypes/Messages.h"
 #include "Lobby/Lobby.h"
-#include "Logging/VGA.h"
-#include "Logging/Logger.h"
 
 #endif /* INCLUDES_H_ */

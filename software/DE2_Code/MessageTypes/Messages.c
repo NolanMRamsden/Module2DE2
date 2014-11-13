@@ -9,7 +9,7 @@
 void sendPlayerAck(Player player)
 {
 	Message *message = malloc(sizeof(Message));
-	char data[maxNameLength+3];
+	char data[maxNameLength+2];
 	int i;
 	for(i=0;i<maxNameLength;i++)
 	{
@@ -49,6 +49,25 @@ void sendNewPlayerBroadcast(Player player)
 	free(message);
 }
 
+void sendNewPlayerMessage(Player player, int clientID)
+{
+	Message *message = malloc(sizeof(Message));
+
+		char data[maxNameLength+2];
+		int i;
+		for(i=0;i<maxNameLength;i++)
+		{
+			if(player.name[i] == '\0')
+				data[i]=' ';
+			else
+				data[i]=player.name[i];
+		}
+		data[maxNameLength]=(int)player.inLobby;
+		data[maxNameLength+1]='\0';
+		loadData(message,data,newPlayer,clientID);
+		sendMessage(*message);
+}
+
 void sendGameOverBroadcast(Player player)
 {
 	Message *message = malloc(sizeof(Message));
@@ -65,13 +84,11 @@ void sendGameStartArray(SongSeed *seed)
 	char data[numGesturesPerSong*2+1];
 	int i;
 	for(i=0;i<numGesturesPerSong;i++)
-	{
 		data[2*i]  = seed->actionKey[i];
-	}
+
 	for(i=0;i<numGesturesPerSong;i++)
-	{
 		data[2*i+1]  = seed->userKey[i];
-	}
+
 	data[numGesturesPerSong*2]='\0';
 	loadData(message,data,gameArray,broadcast);
 	sendMessage(*message);
@@ -82,5 +99,18 @@ void sendGameStartArray(SongSeed *seed)
 void sendGameStartBroadcast(Message *message)
 {
 	loadData(message,message->data,gameStart,broadcast);
+	sendMessage(*message);
+}
+
+void sendPingResponse(int clientID)
+{
+	Message *message = malloc(sizeof(Message));
+	loadData(message,"0",0,clientID);
+	free(message);
+}
+
+void broadcastMessage(Message *message)
+{
+	loadData(message,message->data,broadcastMe,broadcast);
 	sendMessage(*message);
 }

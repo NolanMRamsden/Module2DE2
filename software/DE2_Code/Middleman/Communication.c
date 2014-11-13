@@ -58,18 +58,31 @@ void recieveData(Message *message)
 		message->data[i]=message_rx[i];
 		message->fullMessage[i+1]=message_rx[i];
 	}
+
+	if(message->length > 1)
+	{
+		int l = 0;
+	}
+
+	return;
 }
 
 void sendMessage(Message message)
 {
-	usb_device_send(&message.fullMessage, message.numLength);
+	usb_device_send(&message.fullMessage, message.numLength+2);
+	int i,j;
+	for(i=0;i<65000;i++)
+		for(j=0;j<70;j++)
+		{
+			int k=0;
+		}
 }
 
-void loadData(Message *message, char *data, char type, int clientID)
+void loadData(Message *message, char *data, char type, unsigned int clientID)
 {
 	message->clientID=clientID;
-	message->numLength=strlen(data)+3;
-	message->length=strlen(data)+3;
+	message->numLength=strlen(data)+2;
+	message->length=strlen(data)+2;
 	message->type=(int)type;
 
 	int i;

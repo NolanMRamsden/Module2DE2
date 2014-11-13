@@ -31,11 +31,6 @@ void loadPlayer(Player *player, Message *inMessage)
 	player->clientID=inMessage->clientID;
 }
 
-void sendLobbyUpdate(LobbyRoom *room, Player player)
-{
-
-}
-
 void addPlayerToLobby(LobbyRoom *room, Player player)
 {
 	int i;
@@ -53,6 +48,10 @@ void addPlayerToLobby(LobbyRoom *room, Player player)
 	}
 	sendNewPlayerBroadcast(room->players[room->playerCount]);
 	sendPlayerAck(room->players[room->playerCount]);
+	for(i=0;i<room->playerCount;i++)
+	{
+		sendNewPlayerMessage(room->players[i],player.clientID);
+	}
 	room->playerCount++;
 }
 
