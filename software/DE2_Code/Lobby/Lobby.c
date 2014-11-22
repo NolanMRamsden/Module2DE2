@@ -62,7 +62,8 @@ void removePlayerFromLobby(LobbyRoom *room, int clientID)
 	int index = getClientIDIndex(room,clientID);
 	room->players[index].inLobby=2;
 	wasHost=room->players[index].isHost;
-	sendNewPlayerBroadcast(room->players[index]);
+	Player temp = room->players[index];
+	//sendNewPlayerBroadcast(room->players[index]);
 	for(i=index; i < maxPlayers; i++)
 	{
 		for(j=0;j<maxNameLength;j++)
@@ -79,6 +80,7 @@ void removePlayerFromLobby(LobbyRoom *room, int clientID)
 	{
 		room->hasHost=0;
 	}
+	sendNewPlayerBroadcast(temp);
 }
 
 int getClientIDIndex(LobbyRoom *room, int clientID)

@@ -44,56 +44,41 @@ int main()
 	while(1)
 	{
 		recieveData(inMessage);
-
-		if(lobby->inPlay)  //GamePlay Mode
+		switch(inMessage->type)
 		{
-			switch(inMessage->type)
-			{
-				case gameLost:
-					j=getClientIDIndex(lobby,inMessage->clientID);
-					if(j != -1)
-						sendGameOverBroadcast(lobby->players[j]);
-					lobby->inPlay=0;
-					lobby->level=0;
-					break;
-				case playerLeave:
-					removePlayerFromLobby(lobby, inMessage->clientID);
-					break;
-				case levelOver:
-					lobby->level++;
-					run(lobby,inMessage);
-					break;
-				default:
-					sendPingResponse(inMessage->clientID);
-					break;
-			}
-		}else          //Lobby Mode
-		{
-			switch(inMessage->type)
-			{
-				case newPlayer:
-					loadPlayer(tempPlayer,inMessage);
+			case gameLost:
+				j=getClientIDIndex(lobby,inMessage->clientID);
+				if(j != -1)
+					sendGameOverBroadcast(lobby->players[j]);
+				break;
+			case playerLeave:
+				removePlayerFromLobby(lobby, inMessage->clientID);
+				break;
+			case levelOver:
+				lobby->level++;
+				run(lobby,inMessage);
+				break;
+			case newPlayer:
+				loadPlayer(tempPlayer,inMessage);
+				if(getClientIDIndex(lobby,inMessage->clientID) == -1)
 					addPlayerToLobby(lobby, *tempPlayer);
-					break;
-				case playerLeave:
-					removePlayerFromLobby(lobby, inMessage->clientID);
-					break;
-				case startGame:
-					j = getClientIDIndex(lobby,inMessage->clientID);
-					if(j != -1)
-						if(lobby->players[j].isHost)
-						{
-							lobby->inPlay=1;
-							run(lobby,inMessage);
-						}
-					break;
-				case broadcastMe:
-					broadcastMessage(inMessage);
-					break;
-				default:
-					sendPingResponse(inMessage->clientID);
-					break;
-			}
+				else
+					sendPlayerAck(lobby->players[getClientIDIndex(lobby,inMessage->clientID)]);
+				break;
+			case startGame:
+				run(lobby,inMessage);
+				break;
+			case broadcastMe:
+				broadcastMessage(inMessage);
+				break;
+			default:
+				sendPingResponse(inMessage->clientID);
+				break;
+		}
+		if(lobby->playerCount == 0)
+		{
+			lobby->inPlay=0;
+			lobby->hasHost=0;
 		}
 	}
 

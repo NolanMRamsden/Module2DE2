@@ -71,7 +71,7 @@ void sendMessage(Message message)
 {
 	usb_device_send(&message.fullMessage, message.numLength+2);
 	int i,j;
-	for(i=0;i<65000;i++)
+	for(i=0;i<45000;i++)
 		for(j=0;j<70;j++)
 		{
 			int k=0;
