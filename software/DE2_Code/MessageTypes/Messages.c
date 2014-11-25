@@ -54,27 +54,39 @@ void sendNewPlayerMessage(Player player, int clientID)
 {
 	Message *message = malloc(sizeof(Message));
 
-		char data[maxNameLength+3];
-		int i;
-		for(i=0;i<maxNameLength;i++)
-		{
-			if(player.name[i] == '\0')
-				data[i]=' ';
-			else
-				data[i]=player.name[i];
-		}
-		data[maxNameLength]=(int)player.inLobby;
-		data[maxNameLength+1]=(int)player.clientID;
-		data[maxNameLength+2]='\0';
-		loadData(message,data,newPlayer,clientID);
-		sendMessage(*message);
+	char data[maxNameLength+3];
+	int i;
+	for(i=0;i<maxNameLength;i++)
+	{
+		if(player.name[i] == '\0')
+			data[i]=' ';
+		else
+			data[i]=player.name[i];
+	}
+	data[maxNameLength]=(int)player.inLobby;
+	data[maxNameLength+1]=(int)player.clientID;
+	data[maxNameLength+2]='\0';
+	loadData(message,data,newPlayer,clientID);
+	sendMessage(*message);
 }
 
 void sendGameOverBroadcast(Player player)
 {
 	Message *message = malloc(sizeof(Message));
 
-	loadData(message,player.name,gameOver,broadcast);
+	char data[maxNameLength+2];
+	int i;
+	for(i=0;i<maxNameLength;i++)
+	{
+		if(player.name[i] == '\0')
+			data[i]=' ';
+		else
+			data[i]=player.name[i];
+	}
+	data[maxNameLength]=(int)player.clientID;
+	data[maxNameLength+1]='\0';
+
+	loadData(message,data,gameOver,broadcast);
 	sendMessage(*message);
 
 	free(message);
