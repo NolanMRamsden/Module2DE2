@@ -32,7 +32,7 @@ void sendNewPlayerBroadcast(Player player)
 {
 	Message *message = malloc(sizeof(Message));
 
-	char data[maxNameLength+2];
+	char data[maxNameLength+3];
 	int i;
 	for(i=0;i<maxNameLength;i++)
 	{
@@ -42,7 +42,8 @@ void sendNewPlayerBroadcast(Player player)
 			data[i]=player.name[i];
 	}
 	data[maxNameLength]=(int)player.inLobby;
-	data[maxNameLength+1]='\0';
+	data[maxNameLength+1]=(int)player.clientID;
+	data[maxNameLength+2]='\0';
 	loadData(message,data,newPlayer,broadcast);
 	sendMessage(*message);
 
@@ -53,7 +54,7 @@ void sendNewPlayerMessage(Player player, int clientID)
 {
 	Message *message = malloc(sizeof(Message));
 
-		char data[maxNameLength+2];
+		char data[maxNameLength+3];
 		int i;
 		for(i=0;i<maxNameLength;i++)
 		{
@@ -63,7 +64,8 @@ void sendNewPlayerMessage(Player player, int clientID)
 				data[i]=player.name[i];
 		}
 		data[maxNameLength]=(int)player.inLobby;
-		data[maxNameLength+1]='\0';
+		data[maxNameLength+1]=(int)player.clientID;
+		data[maxNameLength+2]='\0';
 		loadData(message,data,newPlayer,clientID);
 		sendMessage(*message);
 }
