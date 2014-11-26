@@ -70,21 +70,13 @@ void sendNewPlayerMessage(Player player, int clientID)
 	sendMessage(*message);
 }
 
-void sendGameOverBroadcast(Player player)
+void sendGameOverBroadcast(int clientID)
 {
 	Message *message = malloc(sizeof(Message));
 
-	char data[maxNameLength+2];
-	int i;
-	for(i=0;i<maxNameLength;i++)
-	{
-		if(player.name[i] == '\0')
-			data[i]=' ';
-		else
-			data[i]=player.name[i];
-	}
-	data[maxNameLength]=(int)player.clientID;
-	data[maxNameLength+1]='\0';
+	char data[2];
+	data[0]=clientID;
+	data[1]='\0';
 
 	loadData(message,data,gameOver,broadcast);
 	sendMessage(*message);

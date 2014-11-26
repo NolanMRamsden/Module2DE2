@@ -28,6 +28,7 @@ void generateActionKeys(SongSeed *songSeed, int maxGestures)
 void generateSongSeed(SongSeed *songSeed, LobbyRoom *lobby, int maxGestures)
 {
 	srand(songSeed->randSeed);
+	songSeed->randSeed++;
 	generateUserKeys(songSeed,lobby);
 	generateActionKeys(songSeed,maxGestures);
 }

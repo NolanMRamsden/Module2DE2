@@ -45,16 +45,14 @@ int main()
 	Player *tempPlayer = malloc(sizeof(Player));
 	initRoom(lobby);
 	getBoardConnection();
-	seed->randSeed = 14;
+	seed->randSeed = 1341;
 	while(1)
 	{
 		recieveData(inMessage);
 		switch(inMessage->type)
 		{
 			case gameLost:
-				j=getClientIDIndex(lobby,inMessage->clientID);
-				if(j != -1)
-					sendGameOverBroadcast(lobby->players[j]);
+				sendGameOverBroadcast(inMessage->clientID);
 				break;
 			case playerLeave:
 				removePlayerFromLobby(lobby, inMessage->clientID);
