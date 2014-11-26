@@ -114,6 +114,24 @@ void sendGameStartBroadcast(Message *message)
 {
 	loadData(message,message->data,gameStart,broadcast);
 	sendMessage(*message);
+	int i,j;
+	for(i=0;i<45000;i++)
+		for(j=0;j<70;j++)
+		{
+			int k=0;
+		}
+	for(i=0;i<45000;i++)
+			for(j=0;j<70;j++)
+			{
+				int k=0;
+			}
+	for(i=0;i<45000;i++)
+			for(j=0;j<70;j++)
+			{
+				int k=0;
+			}
+	loadData(message,message->data,gameRealStart,broadcast);
+	sendMessage(*message);
 }
 
 void sendPingResponse(int clientID)

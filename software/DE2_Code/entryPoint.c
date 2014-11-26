@@ -21,26 +21,31 @@ void getBoardConnection()
 	}
 }
 
-void run(LobbyRoom *lobby, Message *trigger)
+void run(LobbyRoom *lobby, Message *trigger, SongSeed *seed)
 {
-	SongSeed *seed = malloc(sizeof(SongSeed));
-	seed->randSeed = 14;
 	generateSongSeed(seed, lobby, 3);
 	sendGameStartArray(seed);
 	sendGameStartBroadcast(trigger);
-	free(seed);
+}
+
+void sendArrays(LobbyRoom *lobby, Message *trigger, SongSeed *seed)
+{
+	generateSongSeed(seed, lobby, 5);
+	sendGameStartArray(seed);
 }
 
 int main()
 {
 	int j;
+
 	usb_dev = malloc(sizeof(alt_up_usb_dev));
+	SongSeed *seed = malloc(sizeof(SongSeed));
 	Message *inMessage = malloc(sizeof(Message));
 	LobbyRoom *lobby = malloc(sizeof(LobbyRoom));
 	Player *tempPlayer = malloc(sizeof(Player));
 	initRoom(lobby);
 	getBoardConnection();
-
+	seed->randSeed = 14;
 	while(1)
 	{
 		recieveData(inMessage);
@@ -56,7 +61,7 @@ int main()
 				break;
 			case levelOver:
 				lobby->level++;
-				run(lobby,inMessage);
+				run(lobby,inMessage,seed);
 				break;
 			case newPlayer:
 				loadPlayer(tempPlayer,inMessage);
@@ -66,10 +71,13 @@ int main()
 					sendPlayerAck(lobby->players[getClientIDIndex(lobby,inMessage->clientID)]);
 				break;
 			case startGame:
-				run(lobby,inMessage);
+				run(lobby,inMessage,seed);
 				break;
 			case broadcastMe:
 				broadcastMessage(inMessage);
+				break;
+			case moreArrays:
+				sendArrays(lobby,inMessage,seed);
 				break;
 			default:
 				sendPingResponse(inMessage->clientID);
