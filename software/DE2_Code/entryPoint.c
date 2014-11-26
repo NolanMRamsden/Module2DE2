@@ -23,7 +23,7 @@ void getBoardConnection()
 
 void run(LobbyRoom *lobby, Message *trigger, SongSeed *seed)
 {
-	generateSongSeed(seed, lobby, 3);
+	generateSongSeed(seed, lobby, 5);
 	sendGameStartArray(seed);
 	sendGameStartBroadcast(trigger);
 }
