@@ -14,7 +14,7 @@ void recieveData(Message *message)
 	int bytes_expected;
 	int bytes_recvd;
 	int total_recvd;
-	unsigned char data;
+	unsigned char data = '0';
 	unsigned char message_rx[100];
 
 	bytes_expected = 1;
@@ -34,7 +34,11 @@ void recieveData(Message *message)
 			total_recvd += bytes_recvd;
 	}
 	message->numLength=(int)data;
-
+	if(message->numLength == 0)
+	{
+		message->type = playerLeave;
+		return;
+	}
 	bytes_expected = 1;
 	total_recvd = 0;
 	while (total_recvd < bytes_expected) {
